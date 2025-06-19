@@ -1,0 +1,551 @@
+body {
+  text-align: center;
+  font-family: 'Segoe UI', 'Meiryo', 'Arial Black', 'Arial', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a2a43 0%, #0099cc 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+h1 {
+  color: #ffe600;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 12px #ffe600, 0 0 24px #0099cc;
+}
+#memory-gauge {
+  margin: 40px auto 0 auto;
+  width: 900px;
+  height: 70px;
+  position: relative;
+  background: rgba(0, 30, 60, 0.85);
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 24px #0099cc99, 0 0 8px #ffe60055;
+  border: 3px solid #ffe600;
+}
+.gauge-number {
+  width: 60px;
+  text-align: center;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  font-weight: bold;
+  color: #ffe600;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+  font-size: 2em;
+}
+.marker {
+  position: absolute;
+  top: -30px;
+  width: 60px;
+  height: 30px;
+  background: #ffe600;
+  color: #0099cc;
+  border-radius: 15px;
+  line-height: 30px;
+  text-align: center;
+  left: 0;
+  transition: left 0.2s;
+  box-shadow: 0 0 12px #ffe600, 0 0 8px #0099cc77;
+  font-size: 2em;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  font-weight: bold;
+  text-shadow: 0 0 8px #0099cc, 0 0 16px #ffe600;
+}
+.controls {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button {
+  font-size: 2em;
+  margin: 0 24px;
+  padding: 10px 28px;
+  background: #222;
+  color: #ffe600;
+  border: 2px solid #ffe600;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #0099cc77, 0 0 4px #ffe60055;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s, transform 0.2s;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  font-weight: bold;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+}
+button:hover {
+  background: #ffe600;
+  color: #0099cc;
+  border: 2px solid #0099cc;
+  transform: scale(1.08);
+}
+#memory-value {
+  font-size: 2.5em;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  font-weight: bold;
+  margin: 0 24px;
+  background: #0099cc;
+  border-radius: 10px;
+  padding: 0 18px;
+  color: #ffe600;
+  border: 2px solid #ffe600;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+  transition: color 0.3s, transform 0.3s, background 0.3s;
+}
+/* 0から変化したときのアニメーション */
+.memory-action {
+  color: #ffe600;
+  background: #0099cc;
+  animation: pop-flash 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes pop-flash {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
+  }
+  20% {
+    transform: scale(2.2) rotate(-10deg);
+    filter: brightness(1.2);
+  }
+  40% {
+    transform: scale(1.5) rotate(10deg);
+    filter: brightness(1.2);
+  }
+  60% {
+    transform: scale(2) rotate(-8deg);
+    filter: brightness(1.3);
+  }
+  80% {
+    transform: scale(1.3) rotate(8deg);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
+  }
+}
+#player-change-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4em;
+  font-weight: bold;
+  color: #ffe600;
+  text-shadow: 0 0 20px #0099cc, 0 0 40px #ffe600;
+  background: #0a2a43cc;
+  padding: 32px 60px;
+  border-radius: 32px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+.player-change-animate {
+  animation: player-change-pop 1s cubic-bezier(.68,-0.55,.27,1.55);
+  background: #0a2a43cc;
+  color: #ffe600;
+}
+@keyframes player-change-pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5) rotate(-20deg);
+    filter: brightness(1);
+    opacity: 0.2;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1.3) rotate(10deg);
+    filter: brightness(1.2);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(0.9) rotate(-8deg);
+    filter: brightness(1.2);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1.2) rotate(8deg);
+    filter: brightness(1.3);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    filter: brightness(1);
+    opacity: 1;
+  }
+}
+.main-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 40px;
+  z-index: 1;
+}
+.center-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.security-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 30, 60, 0.85);
+  border: 3px solid #ffe600;
+  border-radius: 18px;
+  padding: 18px 32px 12px 32px;
+  box-shadow: 0 0 24px #0099cc99, 0 0 8px #ffe60055;
+}
+.security-label {
+  font-size: 1.2em;
+  color: #ffe600;
+  margin-bottom: 8px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+}
+.security-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.security-value {
+  font-size: 2.2em;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  font-weight: bold;
+  margin: 0 18px;
+  color: #fff;
+  background: #0099cc;
+  border: 2px solid #ffe600;
+  border-radius: 10px;
+  padding: 0 18px;
+  box-shadow: 0 0 12px #0099cc, 0 0 8px #ffe60077;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+  transition: color 0.3s, transform 0.3s, background 0.3s;
+}
+.security-decrease, .security-increase {
+  font-size: 1.7em;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffe600;
+  background: #222;
+  color: #ffe600;
+  font-weight: bold;
+  box-shadow: 0 0 8px #0099cc77, 0 0 4px #ffe60055;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: background 0.2s, color 0.2s, border 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+}
+.security-decrease:hover, .security-increase:hover {
+  background: #ffe600;
+  color: #0099cc;
+  border: 2px solid #0099cc;
+  transform: scale(1.12);
+}
+.security-animate {
+  color: #ffe600;
+  background: #0099cc;
+  animation: security-pop 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes security-pop {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
+  }
+  40% {
+    transform: scale(1.3) rotate(-6deg);
+    filter: brightness(1.2);
+  }
+  70% {
+    transform: scale(1.1) rotate(6deg);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
+  }
+}
+.to-coin-btn {
+  font-size: 1.2em;
+  padding: 10px 28px;
+  margin: 20px auto 0 auto;
+  display: block;
+  background: #0099cc;
+  color: #ffe600;
+  border: 2px solid #ffe600;
+  border-radius: 12px;
+  font-weight: bold;
+  box-shadow: 0 0 8px #0099cc77, 0 0 4px #ffe60055;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s, transform 0.2s;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+}
+.to-coin-btn:hover {
+  background: #ffe600;
+  color: #0099cc;
+  border: 2px solid #0099cc;
+  transform: scale(1.08);
+}
+.coin-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+#coin-toss-btn {
+  font-size: 1.5em;
+  padding: 16px 48px;
+  margin: 32px 0 24px 0;
+  background: #0099cc;
+  color: #ffe600;
+  border: 2px solid #ffe600;
+  border-radius: 16px;
+  font-weight: bold;
+  box-shadow: 0 0 8px #0099cc77, 0 0 4px #ffe60055;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s, transform 0.2s;
+  font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+}
+#coin-toss-btn:hover {
+  background: #ffe600;
+  color: #0099cc;
+  border: 2px solid #0099cc;
+  transform: scale(1.08);
+}
+.coin-result {
+  font-size: 2em;
+  font-weight: bold;
+  color: #ffe600;
+  margin: 24px 0 32px 0;
+  min-height: 2em;
+  text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
+  background: #0099cc;
+  border-radius: 10px;
+  padding: 0 18px;
+  border: 2px solid #ffe600;
+  transition: color 0.3s, transform 0.3s, background 0.3s;
+}
+.coin-animate {
+  color: #0099cc;
+  background: #ffe600;
+  animation: coin-pop 1s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes coin-pop {
+  0% {
+    transform: scale(0.5) rotate(-20deg);
+    filter: brightness(1);
+    opacity: 0.2;
+  }
+  30% {
+    transform: scale(1.2) rotate(10deg);
+    filter: brightness(1.2);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.05) rotate(-8deg);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1100px) {
+  #memory-gauge {
+    width: 98vw;
+    min-width: 320px;
+    max-width: 99vw;
+  }
+  .main-area {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 800px) {
+  .main-area {
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 20px;
+  }
+  #memory-gauge {
+    width: 98vw;
+    min-width: 220px;
+    max-width: 99vw;
+    height: 48px;
+  }
+  .gauge-number {
+    width: 32px;
+    font-size: 1.1em;
+  }
+  .marker {
+    width: 32px;
+    height: 18px;
+    font-size: 1.1em;
+    top: -18px;
+    line-height: 18px;
+  }
+  .security-block {
+    padding: 10px 10px 6px 10px;
+  }
+  .security-value {
+    font-size: 1.3em;
+    padding: 0 8px;
+  }
+  .security-decrease, .security-increase {
+    font-size: 1.1em;
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+  }
+  #memory-value {
+    font-size: 1.3em;
+    padding: 0 8px;
+    margin: 0 8px;
+  }
+  button {
+    font-size: 1.1em;
+    padding: 6px 12px;
+    margin: 0 8px;
+  }
+  .controls {
+    margin-top: 18px;
+  }
+  h1 {
+    font-size: 1.3em;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+  #player-change-message {
+    font-size: 2em;
+    padding: 12px 16px;
+    border-radius: 16px;
+  }
+  .to-coin-btn {
+    font-size: 1em;
+    padding: 6px 12px;
+    margin: 12px auto 0 auto;
+    border-radius: 8px;
+  }
+  #coin-toss-btn {
+    font-size: 1em;
+    padding: 8px 18px;
+    margin: 16px 0 12px 0;
+    border-radius: 8px;
+  }
+  .coin-result {
+    font-size: 1.1em;
+    padding: 0 8px;
+    border-radius: 6px;
+    margin: 12px 0 16px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #memory-gauge {
+    min-width: 120px;
+    height: 32px;
+  }
+  .gauge-number {
+    width: 18px;
+    font-size: 0.8em;
+  }
+  .marker {
+    width: 18px;
+    height: 10px;
+    font-size: 0.8em;
+    top: -10px;
+    line-height: 10px;
+  }
+  .security-block {
+    padding: 4px 2px 2px 2px;
+    border-radius: 8px;
+  }
+  .security-label {
+    font-size: 0.9em;
+    margin-bottom: 2px;
+  }
+  .security-value {
+    font-size: 0.9em;
+    padding: 0 2px;
+    border-radius: 4px;
+  }
+  .security-decrease, .security-increase {
+    font-size: 0.7em;
+    width: 18px;
+    height: 18px;
+    margin: 0 2px;
+    border-radius: 4px;
+  }
+  #memory-value {
+    font-size: 0.8em;
+    padding: 0 2px;
+    margin: 0 2px;
+    border-radius: 4px;
+  }
+  button {
+    font-size: 0.7em;
+    padding: 2px 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+  }
+  .controls {
+    margin-top: 8px;
+  }
+  h1 {
+    font-size: 1em;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  #player-change-message {
+    font-size: 1em;
+    padding: 4px 6px;
+    border-radius: 6px;
+  }
+  .to-coin-btn {
+    font-size: 0.7em;
+    padding: 2px 4px;
+    margin: 4px auto 0 auto;
+    border-radius: 4px;
+  }
+  #coin-toss-btn {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    margin: 4px 0 4px 0;
+    border-radius: 4px;
+  }
+  .coin-result {
+    font-size: 0.7em;
+    padding: 0 2px;
+    border-radius: 2px;
+    margin: 4px 0 6px 0;
+  }
+} 

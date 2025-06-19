@@ -1,0 +1,21 @@
+{
+  "name": "デジモン メモリーカウンター",
+  "short_name": "デジモンカウンター",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a2a43",
+  "theme_color": "#0099cc",
+  "description": "デジモンカードゲーム用メモリー＆セキュリティカウンター",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 

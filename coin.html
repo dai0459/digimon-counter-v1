@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>コイントス - デジモン メモリーカウンター</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0099cc">
+</head>
+<body>
+  <h1>コイントス</h1>
+  <div class="coin-area">
+    <button id="coin-toss-btn">コイントス！</button>
+    <div id="coin-result" class="coin-result"></div>
+    <button id="back-to-counter" class="to-coin-btn">メモリーカウンターへ戻る</button>
+  </div>
+  <script src="coin.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html> 

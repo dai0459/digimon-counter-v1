@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>デジモン メモリーカウンター</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0099cc">
+</head>
+<body>
+  <h1>デジモン メモリーカウンター</h1>
+  <button id="to-coin" class="to-coin-btn">コイントスへ</button>
+  <div class="main-area">
+    <div class="security-block">
+      <div class="security-label">プレーヤー1</div>
+      <div class="security-row">
+        <button class="security-decrease" id="security-decrease-my">−</button>
+        <span class="security-value" id="security-value-my">5</span>
+        <button class="security-increase" id="security-increase-my">＋</button>
+      </div>
+    </div>
+    <div class="center-area">
+      <div id="memory-gauge"></div>
+      <div class="controls">
+        <button id="decrease">1</button>
+        <span id="memory-value">0</span>
+        <button id="increase">1</button>
+      </div>
+    </div>
+    <div class="security-block">
+      <div class="security-label">プレーヤー2</div>
+      <div class="security-row">
+        <button class="security-decrease" id="security-decrease-op">−</button>
+        <span class="security-value" id="security-value-op">5</span>
+        <button class="security-increase" id="security-increase-op">＋</button>
+      </div>
+    </div>
+  </div>
+  <div id="player-change-message" style="display:none;"></div>
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+    document.getElementById('to-coin').onclick = function() {
+      window.location.href = 'coin.html';
+    };
+  </script>
+</body>
+</html> 
