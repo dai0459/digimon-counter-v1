@@ -395,6 +395,20 @@ button:hover {
     flex-direction: column;
     gap: 24px;
     margin-top: 20px;
+    width: 100vw;
+    align-items: stretch;
+  }
+  .security-block {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .center-area {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
   #memory-gauge {
     width: 98vw;
@@ -412,9 +426,6 @@ button:hover {
     font-size: 1.1em;
     top: -18px;
     line-height: 18px;
-  }
-  .security-block {
-    padding: 10px 10px 6px 10px;
   }
   .security-value {
     font-size: 1.3em;
@@ -470,6 +481,22 @@ button:hover {
 }
 
 @media (max-width: 480px) {
+  .main-area {
+    width: 100vw;
+    align-items: stretch;
+  }
+  .security-block {
+    width: 100%;
+    max-width: 98vw;
+    margin: 0 auto 4px auto;
+    box-sizing: border-box;
+  }
+  .center-area {
+    width: 100%;
+    max-width: 99vw;
+    margin: 0 auto 4px auto;
+    box-sizing: border-box;
+  }
   #memory-gauge {
     min-width: 120px;
     height: 32px;
@@ -484,10 +511,6 @@ button:hover {
     font-size: 0.8em;
     top: -10px;
     line-height: 10px;
-  }
-  .security-block {
-    padding: 4px 2px 2px 2px;
-    border-radius: 8px;
   }
   .security-label {
     font-size: 0.9em;
