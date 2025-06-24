@@ -29,44 +29,61 @@ h1 {
   text-shadow: 0 0 12px #ffe600, 0 0 24px #0099cc;
 }
 #memory-gauge {
-  margin: 40px auto 0 auto;
-  width: 900px;
-  height: 70px;
-  position: relative;
-  background: rgba(0, 30, 60, 0.85);
-  border-radius: 35px;
+  position: fixed;
+  left: 50%;
+  top: 0;
+  bottom: auto;
+  transform: translateX(-50%);
+  margin: 0;
+  width: min(2400px, 98vw);
+  min-width: 320px;
+  max-width: 98vw;
+  height: 80px;
+  background: rgba(0, 30, 60, 0.95);
+  border-radius: 0 0 40px 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 0 24px #0099cc99, 0 0 8px #ffe60055;
-  border: 3px solid #ffe600;
+  justify-content: space-around;
+  box-shadow: 0 4px 32px #0099cc99, 0 0 12px #ffe60055;
+  border: 4px solid #ffe600;
+  padding: 0;
+  overflow: visible;
+  z-index: 100;
+  box-sizing: border-box;
 }
 .gauge-number {
-  width: 60px;
-  text-align: center;
   font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
   font-weight: bold;
   color: #ffe600;
   text-shadow: 0 0 8px #ffe600, 0 0 16px #0099cc;
-  font-size: 2em;
+  font-size: 1.5em;
+  flex: 1;
+  text-align: center;
+  z-index: 1;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 0;
 }
 .marker {
   position: absolute;
-  top: -30px;
-  width: 60px;
-  height: 30px;
+  top: auto;
+  bottom: -20px;
+  left: 0;
+  width: 44px;
+  height: 44px;
   background: #ffe600;
   color: #0099cc;
-  border-radius: 15px;
-  line-height: 30px;
+  border-radius: 22px;
+  line-height: 44px;
   text-align: center;
-  left: 0;
   transition: left 0.2s;
-  box-shadow: 0 0 12px #ffe600, 0 0 8px #0099cc77;
-  font-size: 2em;
+  box-shadow: 0 0 16px #ffe600, 0 0 8px #0099cc77;
+  font-size: 1.8em;
   font-family: 'Arial Black', 'Meiryo', 'Segoe UI', sans-serif;
   font-weight: bold;
   text-shadow: 0 0 8px #0099cc, 0 0 16px #ffe600;
+  z-index: 2;
+  pointer-events: none;
 }
 .controls {
   margin-top: 40px;
@@ -390,105 +407,33 @@ button:hover {
   }
 }
 
-@media (max-width: 800px) {
+@media (min-width: 801px) {
   .main-area {
-    flex-direction: column !important;
-    gap: 16px !important;
-    margin-top: 10px !important;
-    width: 100vw !important;
-    align-items: stretch !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
-    overflow: visible !important;
+    flex-direction: row;
+    gap: 60px;
+    margin-top: 40px;
+    width: 100vw;
+    max-width: 1200px;
+    align-items: flex-start;
+    justify-content: center;
   }
   .security-block {
-    width: 100% !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-    margin: 0 auto 8px auto !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    width: 240px;
+    min-width: 120px;
+    max-width: 320px;
+    margin: 0 10px;
   }
   .center-area {
-    width: 100% !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-    margin: 0 auto 8px auto !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    width: 420px;
+    min-width: 220px;
+    max-width: 600px;
+    margin: 0 10px;
   }
   #memory-gauge {
-    width: 98vw !important;
-    min-width: 120px !important;
-    max-width: 99vw !important;
-    height: 40px !important;
-    overflow-x: auto !important;
-  }
-  .gauge-number {
-    width: 24px !important;
-    font-size: 1em !important;
-  }
-  .marker {
-    width: 24px !important;
-    height: 14px !important;
-    font-size: 1em !important;
-    top: -14px !important;
-    line-height: 14px !important;
-  }
-  .security-value {
-    font-size: 1.1em !important;
-    padding: 0 6px !important;
-  }
-  .security-decrease, .security-increase {
-    font-size: 1em !important;
-    width: 28px !important;
-    height: 28px !important;
-    margin: 0 2px !important;
-  }
-  #memory-value {
-    font-size: 1.1em !important;
-    padding: 0 6px !important;
-    margin: 0 6px !important;
-  }
-  button {
-    font-size: 1em !important;
-    padding: 4px 8px !important;
-    margin: 0 6px !important;
-  }
-  .controls {
-    margin-top: 10px !important;
-  }
-  h1 {
-    font-size: 1.1em !important;
-    margin-top: 8px !important;
-    margin-bottom: 4px !important;
-  }
-  #player-change-message {
-    font-size: 1.2em !important;
-    padding: 8px 10px !important;
-    border-radius: 10px !important;
-  }
-  .to-coin-btn {
-    font-size: 0.9em !important;
-    padding: 4px 8px !important;
-    margin: 8px auto 0 auto !important;
-    border-radius: 6px !important;
-  }
-  #coin-toss-btn {
-    font-size: 0.9em !important;
-    padding: 6px 12px !important;
-    margin: 8px 0 8px 0 !important;
-    border-radius: 6px !important;
-  }
-  .coin-result {
-    font-size: 0.9em !important;
-    padding: 0 6px !important;
-    border-radius: 4px !important;
-    margin: 8px 0 10px 0 !important;
+    width: 415px;
+    min-width: 220px;
+    max-width: 600px;
+    height: 70px;
   }
 }
 
@@ -531,72 +476,13 @@ button:hover {
     height: 32px !important;
     overflow-x: auto !important;
   }
-  .gauge-number {
-    width: 18px !important;
-    font-size: 0.9em !important;
-  }
-  .marker {
-    width: 18px !important;
-    height: 10px !important;
-    font-size: 0.9em !important;
-    top: -10px !important;
-    line-height: 10px !important;
-  }
-  .security-value {
-    font-size: 1em !important;
-    padding: 0 4px !important;
-  }
-  .security-decrease, .security-increase {
-    font-size: 0.8em !important;
-    width: 22px !important;
-    height: 22px !important;
-    margin: 0 2px !important;
-  }
-  #memory-value {
-    font-size: 1em !important;
-    padding: 0 4px !important;
-    margin: 0 4px !important;
-  }
-  button {
-    font-size: 0.8em !important;
-    padding: 3px 6px !important;
-    margin: 0 4px !important;
-  }
-  .controls {
-    margin-top: 6px !important;
-  }
-  h1 {
-    font-size: 1em !important;
-    margin-top: 4px !important;
-    margin-bottom: 2px !important;
-  }
-  #player-change-message {
-    font-size: 1em !important;
-    padding: 4px 6px !important;
-    border-radius: 6px !important;
-  }
-  .to-coin-btn {
-    font-size: 0.7em !important;
-    padding: 2px 4px !important;
-    margin: 4px auto 0 auto !important;
-    border-radius: 4px !important;
-  }
-  #coin-toss-btn {
-    font-size: 0.7em !important;
-    padding: 2px 6px !important;
-    margin: 4px 0 4px 0 !important;
-    border-radius: 4px !important;
-  }
-  .coin-result {
-    font-size: 0.7em !important;
-    padding: 0 2px !important;
-    border-radius: 2px !important;
-    margin: 4px 0 6px 0 !important;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 800px) and (orientation: portrait), (max-width: 480px) {
   .main-area {
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin-top: 10px !important;
     width: 100vw !important;
     align-items: stretch !important;
     min-width: 0 !important;
@@ -607,7 +493,7 @@ button:hover {
     width: 100% !important;
     max-width: 100vw !important;
     min-width: 0 !important;
-    margin: 0 auto 4px auto !important;
+    margin: 0 auto 8px auto !important;
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
@@ -617,17 +503,17 @@ button:hover {
     width: 100% !important;
     max-width: 100vw !important;
     min-width: 0 !important;
-    margin: 0 auto 4px auto !important;
+    margin: 0 auto 8px auto !important;
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
   }
   #memory-gauge {
-    min-width: 80px !important;
     width: 98vw !important;
+    min-width: 80px !important;
     max-width: 99vw !important;
-    height: 24px !important;
+    height: 32px !important;
     overflow-x: auto !important;
   }
   .gauge-number {

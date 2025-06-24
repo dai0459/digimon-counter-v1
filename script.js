@@ -77,16 +77,31 @@ function renderGauge() {
   for (let i = min; i <= max; i++) {
     const num = document.createElement('span');
     num.className = 'gauge-number';
-    num.textContent = Math.abs(i); // マイナス記号を除去
+    num.textContent = Math.abs(i);
     gauge.appendChild(num);
   }
-  // マーカー
+
   const marker = document.createElement('div');
   marker.className = 'marker';
-  marker.textContent = '▼';
-  const pos = ((memory - min) / (max - min)) * (gauge.offsetWidth - 60);
-  marker.style.left = `${pos}px`;
+  marker.textContent = '▲';
   gauge.appendChild(marker);
+
+  // DOMの描画が完了してからマーカーの位置を計算・設定
+  requestAnimationFrame(() => {
+    const gaugeWidth = gauge.clientWidth;
+    const markerWidth = marker.offsetWidth;
+
+    // ゼロ除算を避ける
+    if (gaugeWidth > 0 && markerWidth > 0) {
+      const itemCount = max - min + 1; // 21
+      const slotWidth = gaugeWidth / itemCount;
+      const index = memory - min;
+
+      // マーカーの中央が、対応する数字スロットの中央に来るようにleftを計算
+      const markerLeft = (index * slotWidth) + (slotWidth / 2) - (markerWidth / 2);
+      marker.style.left = `${markerLeft}px`;
+    }
+  });
 }
 
 function animateMemoryValue() {
